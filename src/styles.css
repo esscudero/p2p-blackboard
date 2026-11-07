@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #20251f;
+  background: #f4f1ea;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 400;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+.welcome { width: min(900px, calc(100% - 40px)); margin: 0 auto; padding: 72px 0 48px; }
+.eyebrow { color: #59735e; font-size: 11px; font-weight: 700; letter-spacing: .16em; }
+h1 { margin: 12px 0 8px; font: 600 clamp(42px, 7vw, 64px)/1 'Space Grotesk', sans-serif; letter-spacing: -.055em; }
+.intro { margin: 0 0 36px; color: #697068; font-size: 17px; }
+.board-preview { overflow: hidden; border: 1px solid #deddd4; border-radius: 18px; background: #fffefa; box-shadow: 0 18px 55px #29352b12; }
+.board-topline { display: flex; align-items: center; justify-content: space-between; min-height: 58px; padding: 0 22px; border-bottom: 1px solid #ecebe4; }
+.board-title { font-weight: 600; }
+.presence { color: #777e75; font-size: 12px; }
+.presence i { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #9baa7d; }
+.canvas { position: relative; display: grid; min-height: 310px; place-items: center; overflow: hidden; background-color: #fbfaf6; background-image: radial-gradient(#d8d8cc 1px, transparent 1px); background-size: 22px 22px; }
+.canvas-hint { color: #a1a49a; font-size: 13px; }
+.sticky { position: absolute; display: grid; width: 148px; height: 122px; place-content: center; text-align: center; color: #454335; font-size: 14px; line-height: 1.5; box-shadow: 0 8px 20px #29352b18; transform: rotate(-5deg); }
+.sticky-yellow { top: 48px; left: 13%; background: #f8e89a; }
+.sticky-blue { right: 14%; bottom: 38px; background: #c9e3e7; transform: rotate(4deg); }
+.toolbar { display: flex; justify-content: center; gap: 9px; padding: 14px; border-top: 1px solid #ecebe4; }
+.toolbar span { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid #e5e4dc; border-radius: 10px; color: #60675e; }
+.footnote { margin-top: 22px; color: #7b8178; text-align: center; font-size: 13px; }
+
+@media (max-width: 560px) {
+  .welcome { padding-top: 48px; }
+  .canvas { min-height: 280px; }
+  .sticky { width: 118px; height: 100px; font-size: 12px; }
+  .sticky-yellow { left: 5%; }
+  .sticky-blue { right: 5%; }
+  .canvas-hint { max-width: 120px; text-align: center; }
+}
