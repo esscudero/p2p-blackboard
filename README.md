@@ -42,6 +42,18 @@ npm run build
 npm run preview
 ```
 
+### Executar o servidor de signaling
+
+Em outro terminal, inicie o servidor WebSocket:
+
+```bash
+npm run dev:server
+```
+
+Por padrão, ele escuta na porta `3001`; o frontend usa `VITE_SIGNALING_URL` de `.env` (copie `.env.example` para `.env` se necessário). Em desenvolvimento local, mantenha `ws://localhost:3001`. Para conectar dispositivos na mesma rede, use no `.env` o IP do computador que executa o servidor, por exemplo `ws://192.168.1.10:3001`, e inicie o Vite com `npm run dev -- --host 0.0.0.0`.
+
+O servidor aceita até quatro participantes por sala e mantém a lista de participantes apenas em memória. O DataChannel é criado pelo navegador depois da negociação; o servidor não recebe as mensagens do quadro.
+
 ## Arquitetura prevista
 
 1. Uma pessoa informa apelido e código da sala. A primeira pessoa cria a sala; as demais entram com o mesmo código.
