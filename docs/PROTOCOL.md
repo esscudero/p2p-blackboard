@@ -113,6 +113,8 @@ type PeerEnvelope<TType extends string, TPayload> = {
 
 ### 4.1 Tipos e mensagens
 
+A interface pode incluir `creatorName` (apelido de até 24 caracteres) em `stroke.start`, nos traços do snapshot e em post-its. O campo é opcional para compatibilidade. Alterações em um post-it preservam o apelido original.
+
 ```ts
 type Point = { x: number; y: number }; // cada coordenada entre 0 e 1
 

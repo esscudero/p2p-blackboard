@@ -21,7 +21,7 @@ WebRTC também não elimina toda infraestrutura de servidor. Um canal de **signa
 
 - TypeScript e React para a interface.
 - Vite para desenvolvimento local e build.
-- WebRTC DataChannels para dados P2P. **Ainda não implementado.**
+- WebRTC DataChannels para dados P2P.
 
 ## Requisitos
 
@@ -41,6 +41,15 @@ Abra o endereço local exibido pelo Vite. Para gerar a versão de produção:
 npm run build
 npm run preview
 ```
+
+### Demonstrar a interface em duas abas
+
+Com o Vite e o servidor de signaling ativos, abra o mesmo endereço em duas abas e informe o mesmo código de sala com apelidos diferentes.
+
+1. Desenhe na primeira aba e acompanhe os pontos chegando à segunda antes de soltar o ponteiro.
+2. Crie um post-it na segunda aba. Na primeira, edite o texto e a cor, mova a nota e exclua o item. Confira cada ação na outra aba.
+3. Abra uma terceira aba na mesma sala e confirme que ela recebe o quadro existente.
+4. Feche as abas, entre novamente com o mesmo código e confira que a sala começa vazia.
 
 ### Executar o servidor de signaling
 
