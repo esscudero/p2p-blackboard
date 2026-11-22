@@ -68,6 +68,12 @@ export class PeerRoom<TMessage extends PeerEnvelopeLike> {
     return [...this.peers.values()];
   }
 
+  get openDataChannels(): PeerInfo[] {
+    return this.otherParticipants.filter((peer) =>
+      this.channels.get(peer.peerId)?.readyState === 'open',
+    );
+  }
+
   async connect(): Promise<void> {
     if (this.socket) throw new Error('Esta instância já iniciou uma conexão.');
     const socket = new WebSocket(this.options.signalingUrl);
@@ -128,6 +134,30 @@ export class PeerRoom<TMessage extends PeerEnvelopeLike> {
       sent += 1;
     }
     return sent;
+  }
+
+  sendToPeer(peerId: string, message: TMessage): boolean {
+    if (!this.self) return false;
+    if (message.senderId !== this.self.peerId) {
+      throw new Error('senderId da mensagem deve corresponder ao peerId local.');
+    }
+
+    const peer = this.peers.get(peerId);
+    if (!peer) return false;
+    const channel = this.channels.get(peerId);
+    if (channel?.readyState !== 'open') return false;
+
+    const encoded = JSON.stringify(message);
+    if (new TextEncoder().encode(encoded).byteLength > MAX_MESSAGE_BYTES) {
+      throw new Error('A mensagem P2P excede o limite de 256 KiB.');
+    }
+
+    channel.send(encoded);
+    return true;
+  }
+
+  broadcast(message: TMessage): number {
+    return this.sendToPeers(message);
   }
 
   disconnect(): void {

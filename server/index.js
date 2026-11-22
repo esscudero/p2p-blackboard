@@ -30,7 +30,10 @@ function broadcast(room, message, exceptPeerId = null) {
 
 function leaveRoom(socket) {
   const { roomCode, peerId } = socket;
-  if (!roomCode || !peerId) return;
+  if (!roomCode || !peerId) {
+    sendError(socket, 'NOT_IN_ROOM', 'Esta conexão não está em uma sala.');
+    return;
+  }
 
   const room = rooms.get(roomCode);
   socket.roomCode = null;
