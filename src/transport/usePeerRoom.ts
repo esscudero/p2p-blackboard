@@ -66,15 +66,21 @@ export function usePeerRoom<TMessage extends PeerEnvelopeLike>(
       ?? import.meta.env.VITE_SIGNALING_URL
       ?? 'ws://localhost:3001';
 
-    const room = new PeerRoom<TMessage>({
+    const room: PeerRoom<TMessage> = new PeerRoom<TMessage>({
       signalingUrl,
       roomCode,
       nickname,
       isPeerMessage: options.isPeerMessage,
       onMessage: options.onMessage,
       onPeersChange: () => {
-        setPeers(roomRef.current?.otherParticipants ?? []);
-        setOpenDataChannels(roomRef.current?.openDataChannels ?? []);
+        if (roomRef.current !== room) return;
+        syncRoomState();
+        if (!room.participant) {
+          roomRef.current = null;
+          setConnectionStates({});
+          setJoined(false);
+          setError({ message: 'A conexão com a sala foi encerrada.' });
+        }
       },
       onPeerConnectionState: (peer, state) => {
         setConnectionStates((current) => ({
@@ -101,7 +107,8 @@ export function usePeerRoom<TMessage extends PeerEnvelopeLike>(
       setSnapshotProviderId(room.snapshotProviderId);
       setJoined(true);
     } catch (caught) {
-      roomRef.current = null;
+      if (roomRef.current === room) roomRef.current = null;
+      room.disconnect();
       setJoined(false);
       if (caught instanceof Error) {
         setError((current) => current ?? { message: caught.message });
@@ -110,11 +117,13 @@ export function usePeerRoom<TMessage extends PeerEnvelopeLike>(
     } finally {
       setJoining(false);
     }
-  }, [options.isPeerMessage, options.onMessage, options.signalingUrl]);
+  }, [options.isPeerMessage, options.onMessage, options.signalingUrl, syncRoomState]);
 
   const leaveRoom = useCallback(() => {
-    roomRef.current?.disconnect();
+    const room = roomRef.current;
     roomRef.current = null;
+    room?.disconnect();
+    setError(null);
     setSelf(null);
     setPeers([]);
     setOpenDataChannels([]);
